@@ -9,4 +9,6 @@ COPY . .
 
 EXPOSE 7860
 
-CMD ["python", "app.py"]
+ENV PYTHONPATH=/app
+
+CMD ["python", "server/app.py"]
