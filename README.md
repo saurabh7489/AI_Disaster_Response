@@ -1,2 +1,9 @@
-# AI Disaster Response Environment
-An OpenEnv-compatible RL environment for disaster response simulation.
+🌍 AI Disaster Response Environment
+---
+title:  AI Disaster Response Environment
+emoji: 🌍
+colorFrom: purple
+colorTo: gray
+sdk: docker
+app_port: 7860
+---
