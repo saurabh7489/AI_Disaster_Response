@@ -92,22 +92,30 @@ The AI agent looks at a disaster zone and decides what action to take — send a
 
 ---
 
-## Full File Structure
+## Folder Structure
 
-hackathon/
-├── app.py
-├── disaster_env.py
-├── agent.py
-├── inference.py
-├── openenv.yaml
-├── pyproject.toml
-├── requirements.txt
-├── Dockerfile
-├── .dockerignore
+
+ai-disaster-response-env/
+│
+├── disaster_env.py              # Core RL environment
+├── agent.py                     # Rule-Based, Greedy, Random agents
+├── inference.py                 # OpenEnv reset() and step() interface
+├── openenv.yaml                 # OpenEnv specification file
+├── pyproject.toml               # Project config and entry points
+├── requirements.txt             # Python dependencies
+├── uv.lock                      # Locked dependency versions
+├── Dockerfile                   # Docker container setup
+├── .dockerignore                # Files excluded from Docker build
+├── README.md                    # Project documentation
+│
+├── server/
+│   └── app.py                   # Flask API server
+│
 ├── templates/
-│   └── index.html
+│   └── index.html               # Dashboard UI
+│
 └── static/
-    ├── style.css
-    └── script.js
-
+    ├── style.css                # Dashboard styles
+    └── script.js               # Dashboard logic
+    
 ---
