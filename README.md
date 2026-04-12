@@ -7,6 +7,107 @@ sdk: docker
 pinned: false
 ---
 
-# AI Disaster Response Environment
+# 🚨 AI Disaster Response Environment
 
-An OpenEnv-compatible RL environment for disaster response simulation.
+An AI agent that responds to disasters by allocating emergency resources like ambulances, food, rescue boats, and more.
+
+Built for the **Meta × PyTorch × Hugging Face × Scaler OpenEnv Hackathon 2025**.
+
+---
+
+## What does it do?
+
+The AI agent looks at a disaster zone and decides what action to take — send an ambulance, drop food supplies, dispatch a helicopter, contain a disease outbreak, and 16 more actions. The goal is to save as many lives as possible with the right resources at the right time.
+
+---
+
+## How to use the dashboard
+
+1. Select a **difficulty** (Easy / Medium / Hard)
+2. Select an **agent** (Rule-Based / Greedy / Random)
+3. Click **Run Step** to see one decision
+4. Click **Auto Run** to watch a full episode automatically
+5. Click **Reset** to start a new episode
+
+---
+
+## Difficulty levels
+
+| Level  | People    | Injured  | Max Steps |
+|--------|-----------|----------|-----------|
+| Easy   | 20 – 50   | 0 – 10   | 30        |
+| Medium | 50 – 120  | 10 – 30  | 25        |
+| Hard   | 120 – 300 | 30 – 80  | 20        |
+
+---
+
+## Actions available (20 total)
+
+| ID | Action               |
+|----|----------------------|
+| 0  | Ambulance Dispatch   |
+| 1  | Food Supply          |
+| 2  | Rescue Boat          |
+| 3  | Wait / Monitor       |
+| 4  | Deploy Doctors       |
+| 5  | Setup Medical Camp   |
+| 6  | Water Supply         |
+| 7  | Distribute Medicines |
+| 8  | Helicopter Rescue    |
+| 9  | Evacuation Bus       |
+| 10 | Quarantine Zone      |
+| 11 | Sanitize Area        |
+| 12 | Distribute Masks     |
+| 13 | Vaccination Drive    |
+| 14 | Alert Authorities    |
+| 15 | Monitor Situation    |
+| 16 | Restore Electricity  |
+| 17 | Setup Comms Network  |
+| 18 | Temporary Shelter    |
+| 19 | Clear Road Blockages |
+
+---
+
+## Agents
+
+- **Rule-Based** — follows a priority chain (disease → injuries → food → rescue → power)
+- **Greedy** — picks the action with highest expected reward each step
+- **Random** — picks a random action (baseline for comparison)
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Description                   |
+|--------|----------|-------------------------------|
+| GET    | `/state` | Get current environment state |
+| POST   | `/reset` | Reset to a new episode        |
+| POST   | `/step`  | Run one step with agent       |
+
+---
+
+## Tech Stack
+
+- Python 3.11 · Flask · OpenEnv Core · Docker · Hugging Face Spaces
+
+---
+
+## Full File Structure
+
+hackathon/
+├── app.py
+├── disaster_env.py
+├── agent.py
+├── inference.py
+├── openenv.yaml
+├── pyproject.toml
+├── requirements.txt
+├── Dockerfile
+├── .dockerignore
+├── templates/
+│   └── index.html
+└── static/
+    ├── style.css
+    └── script.js
+
+---
