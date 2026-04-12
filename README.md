@@ -2,7 +2,7 @@
 title: AI Disaster Response
 emoji: 🚨
 colorFrom: red
-colorTo: orange
+colorTo: red
 sdk: docker
 pinned: false
 ---
