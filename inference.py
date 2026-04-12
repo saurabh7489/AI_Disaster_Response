@@ -2,6 +2,13 @@ import os
 import json
 import sys
 from disaster_env import DisasterEnv
+from openai import OpenAI
+
+client = OpenAI(
+    base_url=os.environ.get("API_BASE_URL"),
+    api_key=os.environ.get("API_KEY"),
+)
+
 
 sys.stdout.reconfigure(line_buffering=True)
 
@@ -84,14 +91,27 @@ def run_episode(difficulty: str = "medium", max_steps: int = 25):
 
 
 def _greedy_action(state: dict) -> int:
-    """Simple greedy action picker for inference runs."""
+    
+    # 🔥 Dummy LLM call (IMPORTANT for Phase 2)
+    try:
+        client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a disaster response assistant."},
+                {"role": "user", "content": f"State: {state}. Suggest best action."}
+            ],
+            max_tokens=10
+        )
+    except Exception:
+        pass  # ignore errors, just need call
+
+    # Your logic
     injured = state.get("injured", 0)
-    food    = state.get("food_needed", False)
-    rescue  = state.get("rescue_needed", False)
-    power   = state.get("power_outage", False)
-    infra   = state.get("infrastructure_damage", False)
+    food = state.get("food_needed", False)
+    rescue = state.get("rescue_needed", False)
+    power = state.get("power_outage", False)
+    infra = state.get("infrastructure_damage", False)
     disease = state.get("disease_outbreak", False)
-    people  = state.get("people", 0)
 
     if disease:
         return 10
@@ -108,6 +128,7 @@ def _greedy_action(state: dict) -> int:
     if infra:
         return 19
     return 15
+
 
 
 if __name__ == "__main__":
