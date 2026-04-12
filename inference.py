@@ -3,6 +3,8 @@ import json
 import sys
 from disaster_env import DisasterEnv
 
+sys.stdout.reconfigure(line_buffering=True)
+
 # ── Required environment variables (as per OpenEnv submission checklist) ──
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
 MODEL_NAME   = os.getenv("MODEL_NAME", "gpt-4o-mini")
@@ -53,8 +55,8 @@ def step(action: int) -> dict:
 
 def run_episode(difficulty: str = "medium", max_steps: int = 25):
 
-    # START log
-    print(f"[START] task=disaster_response difficulty={difficulty}", flush=True)
+    # START log (MINIMAL)
+    print("[START] task=disaster_response", flush=True)
 
     state = reset(difficulty=difficulty)
     total_reward = 0.0
@@ -67,22 +69,16 @@ def run_episode(difficulty: str = "medium", max_steps: int = 25):
         total_reward += result["reward"]
         step_num += 1
 
-        # STEP log (STRICT FORMAT)
-        print(
-            f"[STEP] step={step_num} reward={result['reward']}",
-            flush=True
-        )
+        # STEP log (MINIMAL)
+        print(f"[STEP] step={step_num} reward={result['reward']}", flush=True)
 
         if result["done"]:
             break
 
         state = result["state"]
 
-    # END log (STRICT FORMAT)
-    print(
-        f"[END] task=disaster_response score={round(total_reward,2)} steps={step_num}",
-        flush=True
-    )
+    # END log (MINIMAL)
+    print(f"[END] task=disaster_response score={round(total_reward,2)} steps={step_num}", flush=True)
 
     return total_reward
 
