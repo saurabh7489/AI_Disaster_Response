@@ -1,9 +1,12 @@
-🌍 AI Disaster Response Environment
 ---
-title:  AI Disaster Response Environment
-emoji: 🌍
-colorFrom: purple
-colorTo: gray
+title: AI Disaster Response
+emoji: 🚨
+colorFrom: red
+colorTo: orange
 sdk: docker
-app_port: 7860
+pinned: false
 ---
+
+# AI Disaster Response Environment
+
+An OpenEnv-compatible RL environment for disaster response simulation.
