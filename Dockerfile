@@ -11,4 +11,5 @@ EXPOSE 7860
 
 ENV PYTHONPATH=/app
 
-CMD ["python", "inference.py"]
+CMD ["sh", "-c", "python inference.py || true; python server/app.py"]
+
