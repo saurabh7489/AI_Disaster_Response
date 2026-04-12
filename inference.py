@@ -12,12 +12,7 @@ HF_TOKEN     = os.getenv("HF_TOKEN")
 LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
 
 # ── OpenAI client (all LLM calls use this) ──
-from openai import OpenAI
 
-client = OpenAI(
-    base_url=API_BASE_URL,
-    api_key=HF_TOKEN or "no-token",
-)
 
 # ── Global environment instance ──
 env = DisasterEnv()
@@ -56,25 +51,16 @@ def step(action: int) -> dict:
         "info": info,
     }
 
-
 def run_episode(difficulty: str = "medium", max_steps: int = 25):
-    """
-    Run a full episode with structured START/STEP/END stdout logging.
-    Required log format for OpenEnv submission.
-    """
+
     # START log
-    print(json.dumps({
-        "type": "START",
-        "difficulty": difficulty,
-        "max_steps": max_steps,
-    }), flush=True)
+    print(f"[START] difficulty={difficulty} max_steps={max_steps}", flush=True)
 
     state = reset(difficulty=difficulty)
     total_reward = 0.0
     step_num = 0
 
     while step_num < max_steps:
-        # Pick action (greedy: pick highest scoring action given state)
         action = _greedy_action(state)
 
         result = step(action)
@@ -82,14 +68,10 @@ def run_episode(difficulty: str = "medium", max_steps: int = 25):
         step_num += 1
 
         # STEP log
-        print(json.dumps({
-            "type": "STEP",
-            "step": step_num,
-            "action": action,
-            "reward": result["reward"],
-            "done": result["done"],
-            "state": result["state"],
-        }), flush=True)
+        print(
+            f"[STEP] step={step_num} action={action} reward={result['reward']} done={result['done']}",
+            flush=True
+        )
 
         if result["done"]:
             break
@@ -97,14 +79,13 @@ def run_episode(difficulty: str = "medium", max_steps: int = 25):
         state = result["state"]
 
     # END log
-    print(json.dumps({
-        "type": "END",
-        "total_reward": round(total_reward, 2),
-        "steps_taken": step_num,
-        "difficulty": difficulty,
-    }), flush=True)
+    print(
+        f"[END] total_reward={round(total_reward,2)} steps={step_num} difficulty={difficulty}",
+        flush=True
+    )
 
     return total_reward
+
 
 
 def _greedy_action(state: dict) -> int:
