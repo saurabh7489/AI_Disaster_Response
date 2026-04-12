@@ -54,7 +54,7 @@ def step(action: int) -> dict:
 def run_episode(difficulty: str = "medium", max_steps: int = 25):
 
     # START log
-    print(f"[START] difficulty={difficulty} max_steps={max_steps}", flush=True)
+    print(f"[START] task=disaster_response difficulty={difficulty}", flush=True)
 
     state = reset(difficulty=difficulty)
     total_reward = 0.0
@@ -67,9 +67,9 @@ def run_episode(difficulty: str = "medium", max_steps: int = 25):
         total_reward += result["reward"]
         step_num += 1
 
-        # STEP log
+        # STEP log (STRICT FORMAT)
         print(
-            f"[STEP] step={step_num} action={action} reward={result['reward']} done={result['done']}",
+            f"[STEP] step={step_num} reward={result['reward']}",
             flush=True
         )
 
@@ -78,14 +78,13 @@ def run_episode(difficulty: str = "medium", max_steps: int = 25):
 
         state = result["state"]
 
-    # END log
+    # END log (STRICT FORMAT)
     print(
-        f"[END] total_reward={round(total_reward,2)} steps={step_num} difficulty={difficulty}",
+        f"[END] task=disaster_response score={round(total_reward,2)} steps={step_num}",
         flush=True
     )
 
     return total_reward
-
 
 
 def _greedy_action(state: dict) -> int:
