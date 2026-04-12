@@ -1,12 +1,6 @@
 import sys
 import os
 
-if os.getenv("SCALER_RUN") != "false":
-    try:
-        from inference import run_episode
-        run_episode("medium")
-    except Exception as e:
-        print(f"Error: {e}", flush=True)
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
