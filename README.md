@@ -21,6 +21,35 @@ The AI agent looks at a disaster zone and decides what action to take — send a
 
 ---
 
+## Folder Structure
+
+```
+ai-disaster-response-env/
+│
+├── disaster_env.py              # Core RL environment
+├── agent.py                     # Rule-Based, Greedy, Random agents
+├── inference.py                 # OpenEnv reset() and step() interface
+├── openenv.yaml                 # OpenEnv specification file
+├── pyproject.toml               # Project config and entry points
+├── requirements.txt             # Python dependencies
+├── uv.lock                      # Locked dependency versions
+├── Dockerfile                   # Docker container setup
+├── .dockerignore                # Files excluded from Docker build
+├── README.md                    # Project documentation
+│
+├── server/
+│   └── app.py                   # Flask API server
+│
+├── templates/
+│   └── index.html               # Dashboard UI
+│
+└── static/
+    ├── style.css                # Dashboard styles
+    └── script.js                # Dashboard logic
+```
+
+---
+
 ## How to use the dashboard
 
 1. Select a **difficulty** (Easy / Medium / Hard)
@@ -86,36 +115,46 @@ The AI agent looks at a disaster zone and decides what action to take — send a
 
 ---
 
-## Tech Stack
+## Setup & Run Locally
 
-- Python 3.11 · Flask · OpenEnv Core · Docker · Hugging Face Spaces
+```bash
+# Clone the repo
+git clone https://github.com/YOUR_USERNAME/ai-disaster-response-env
+cd ai-disaster-response-env
+
+# Create virtual environment
+python -m venv venv
+
+# Activate (Windows)
+venv\Scripts\activate
+
+# Activate (Mac / Linux)
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the server
+python server/app.py
+```
+
+Then open `http://localhost:7860` in your browser.
 
 ---
 
-## Folder Structure
+## Run with Docker
 
+```bash
+docker build -t ai-disaster-env .
+docker run -p 7860:7860 ai-disaster-env
+```
 
-ai-disaster-response-env/
-│
-├── disaster_env.py              # Core RL environment
-├── agent.py                     # Rule-Based, Greedy, Random agents
-├── inference.py                 # OpenEnv reset() and step() interface
-├── openenv.yaml                 # OpenEnv specification file
-├── pyproject.toml               # Project config and entry points
-├── requirements.txt             # Python dependencies
-├── uv.lock                      # Locked dependency versions
-├── Dockerfile                   # Docker container setup
-├── .dockerignore                # Files excluded from Docker build
-├── README.md                    # Project documentation
-│
-├── server/
-│   └── app.py                   # Flask API server
-│
-├── templates/
-│   └── index.html               # Dashboard UI
-│
-└── static/
-    ├── style.css                # Dashboard styles
-    └── script.js               # Dashboard logic
-    
+Then open `http://localhost:7860`
+
+---
+
+## Tech Stack
+
+- Python 3.11 · Flask · OpenEnv Core · OpenAI SDK · Docker · Hugging Face Spaces
+
 ---
