@@ -1,0 +1,135 @@
+name: ai-disaster-response-env
+version: "1.0.0"
+description: >
+  A reinforcement learning environment simulating multi-hazard disaster
+  response. An AI agent allocates emergency resources across zones to
+  minimise casualties, restore infrastructure, and resolve crises across
+  three difficulty tiers.
+
+author: "Saurabh"
+tags: [disaster-response, multi-action, real-world, openenv]
+
+environment:
+  observation_space:
+    zone:
+      type: str
+      description: "Current disaster zone (Zone A-E)"
+    people:
+      type: int
+      min: 20
+      max: 300
+      description: "Total population in affected zone"
+    injured:
+      type: int
+      min: 0
+      max: 300
+      description: "Number of injured people requiring treatment"
+    food_needed:
+      type: bool
+      description: "Whether food supply is critically needed"
+    rescue_needed:
+      type: bool
+      description: "Whether rescue operations are required"
+    power_outage:
+      type: bool
+      description: "Whether the zone is experiencing a power outage"
+    infrastructure_damage:
+      type: bool
+      description: "Whether roads/bridges are damaged"
+    disease_outbreak:
+      type: bool
+      description: "Whether a disease outbreak is active"
+    step:
+      type: int
+      description: "Current step within the episode"
+    max_steps:
+      type: int
+      description: "Maximum steps allowed in this episode"
+    difficulty:
+      type: str
+      description: "Current difficulty level: easy / medium / hard"
+
+  action_space:
+    0: send_ambulance
+    1: send_food_supply
+    2: send_rescue_boat
+    3: wait_and_monitor
+    4: deploy_doctors
+    5: setup_medical_camp
+    6: send_water_supply
+    7: distribute_medicines
+    8: helicopter_rescue
+    9: evacuation_bus
+    10: quarantine_zone
+    11: sanitize_area
+    12: distribute_masks
+    13: vaccination_drive
+    14: alert_authorities
+    15: monitor_situation
+    16: restore_electricity
+    17: setup_communication_network
+    18: provide_temporary_shelter
+    19: clear_road_blockages
+
+  reward:
+    description: >
+      Rewards shaped to encourage correct resource allocation.
+      High rewards for resolving active crises; penalties for wasting
+      resources when no crisis exists.
+    ranges:
+      max_per_step: 9.0
+      min_per_step: -2.0
+
+  difficulty_levels:
+    easy:
+      people_range: [20, 50]
+      injured_range: [0, 10]
+      food_prob: 0.3
+      rescue_prob: 0.2
+      power_prob: 0.1
+      infra_prob: 0.1
+      max_steps: 30
+      crisis_prob: 0.15
+    medium:
+      people_range: [50, 120]
+      injured_range: [10, 30]
+      food_prob: 0.5
+      rescue_prob: 0.4
+      power_prob: 0.3
+      infra_prob: 0.3
+      max_steps: 25
+      crisis_prob: 0.25
+    hard:
+      people_range: [120, 300]
+      injured_range: [30, 80]
+      food_prob: 0.7
+      rescue_prob: 0.6
+      power_prob: 0.5
+      infra_prob: 0.5
+      max_steps: 20
+      crisis_prob: 0.40
+
+grader:
+  type: llm
+  criteria:
+    - name: resource_efficiency
+      description: "Did the agent avoid wasting resources when no crisis existed?"
+    - name: crisis_resolution
+      description: "Did the agent resolve injured/food/rescue/disease/power crises?"
+    - name: prioritisation
+      description: "Did the agent correctly prioritise life-threatening crises first?"
+    - name: total_reward
+      description: "Total cumulative reward across the episode."
+
+agents:
+  - name: RandomAgent
+    description: "Selects a random action each step. Baseline lower bound."
+  - name: RuleBasedAgent
+    description: "Priority-driven heuristic agent. Handles all 20 actions."
+  - name: GreedyAgent
+    description: "Picks action with highest expected immediate reward each step."
+
+api:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
