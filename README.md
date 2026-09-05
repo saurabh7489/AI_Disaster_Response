@@ -114,7 +114,11 @@ ai-disaster-response-env/
 | POST   | `/step`  | Run one step with agent       |
 
 ---
+## License
 
+[MIT LICENSE](LICENSE)
+
+---
 ## Setup & Run Locally
 
 ```bash
