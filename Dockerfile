@@ -11,4 +11,4 @@ EXPOSE 7860
 
 ENV PYTHONPATH=/app
 
-CMD ["sh", "-c", "python inference.py > /tmp/log.txt 2>&1; cat /tmp/log.txt; python server/app.py"]
+CMD ["python", "server/app.py"]
